@@ -103,10 +103,10 @@ import (
 )
 
 const (
-	gcmBlockSize         = 16
-	gcmTagSize           = 16
-	gcmMinimumTagSize    = 12 // NIST SP 800-38D recommends tags with 12 or more bytes.
-	gcmStandardNonceSize = 12
+	BlockSize         = 16
+	TagSize           = 16
+	gcmMinimumTagSize = 12 // NIST SP 800-38D recommends tags with 12 or more bytes.
+	NonceSize         = 12
 )
 
 // SM4GCM is basic type of sm4, which implement all cipher.AEAD interface
@@ -124,17 +124,17 @@ func NewGCM(k []byte) cipher.AEAD {
 // NonceSize required by cipher.AEAD interface
 // sm4-gcm nonce size is 12
 func (sg *SM4GCM) NonceSize() int {
-	return gcmStandardNonceSize
+	return NonceSize
 }
 
 // Overhead required by cipher.AEAD interface, always equal tag size
 // sm4-gcm tag size is 12
 func (sg *SM4GCM) Overhead() int {
-	return gcmTagSize
+	return TagSize
 }
 
 func (sg *SM4GCM) tagSize() int {
-	return gcmTagSize
+	return TagSize
 }
 
 // Seal required by cipher.AEAD interface
@@ -143,14 +143,14 @@ func (sg *SM4GCM) Seal(dst, nonce, plaintext, additionalData []byte) []byte {
 		panic("crypto/cipher: incorrect nonce length given to GCM")
 	}
 
-	if uint64(len(plaintext)) > ((1<<32)-2)*uint64(gcmBlockSize) {
+	if uint64(len(plaintext)) > ((1<<32)-2)*uint64(BlockSize) {
 		panic("crypto/cipher: message too large for GCM")
 	}
 
 	ret, out := sliceForAppend(dst, len(plaintext)+sg.tagSize())
 
 	// sm4 key size should euqal block size, the value is 16
-	if len(sg.key) != gcmBlockSize {
+	if len(sg.key) != BlockSize {
 		panic("crypto/cipher: invalid buffer overlap")
 	}
 
@@ -184,7 +184,7 @@ func (sg *SM4GCM) Open(dst, nonce, ciphertext, additionalData []byte) ([]byte, e
 	if len(ciphertext) < sg.tagSize() {
 		return nil, errOpen
 	}
-	if uint64(len(ciphertext)) > ((1<<32)-2)*uint64(gcmBlockSize)+uint64(sg.tagSize()) {
+	if uint64(len(ciphertext)) > ((1<<32)-2)*uint64(BlockSize)+uint64(sg.tagSize()) {
 		return nil, errOpen
 	}
 
