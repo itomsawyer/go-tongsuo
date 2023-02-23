@@ -6,5 +6,4 @@ package sm4
 // #cgo darwin LDFLAGS: -L/opt/tongsuo/lib -lssl -lcrypto
 // #cgo windows CFLAGS: -DWIN32_LEAN_AND_MEAN
 // #cgo windows pkg-config: libssl libcrypto
-// #include "../../shim.h"
 import "C"
