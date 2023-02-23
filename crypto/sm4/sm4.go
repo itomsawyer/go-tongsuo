@@ -17,4 +17,6 @@ package sm4
 // #include "../../shim.h"
 import "C"
 
-type SM4 struct{}
+type SM4CFB struct {
+	ctx *C.EVP_CIPHER_CTX
+}

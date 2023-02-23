@@ -10,10 +10,10 @@ import (
 )
 
 const (
-	BlockSize         = 16
-	TagSize           = 16
-	gcmMinimumTagSize = 12 // NIST SP 800-38D recommends tags with 12 or more bytes.
-	NonceSize         = 12
+	BlockSize      = 16
+	TagSize        = 16
+	MinimumTagSize = 12 // NIST SP 800-38D recommends tags with 12 or more bytes.
+	NonceSize      = 12
 )
 
 // SM4GCM is basic type of sm4, which implement all cipher.AEAD interface
@@ -84,7 +84,7 @@ func (sg *SM4GCM) Open(dst, nonce, ciphertext, additionalData []byte) ([]byte, e
 	}
 	// Sanity check to prevent the authentication from always succeeding if an implementation
 	// leaves tagSize uninitialized, for example.
-	if sg.tagSize() < gcmMinimumTagSize {
+	if sg.tagSize() < MinimumTagSize {
 		panic("crypto/cipher: incorrect GCM tag size")
 	}
 

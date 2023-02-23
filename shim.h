@@ -14,7 +14,6 @@
  * limitations under the License.
  *
  */
-
 #include <stdlib.h>
 #include <string.h>
 
@@ -28,6 +27,9 @@
 #include <openssl/ssl.h>
 #include <openssl/x509v3.h>
 #include <openssl/ec.h>
+
+// C functions for go-tongsuo
+#include <block.h>
 
 #ifndef SSL_MODE_RELEASE_BUFFERS
 #define SSL_MODE_RELEASE_BUFFERS 0

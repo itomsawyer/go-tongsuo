@@ -71,6 +71,17 @@ func TestSM3Writer(t *testing.T) {
 		if got != exp {
 			t.Fatalf("exp:%x got:%x", exp, got)
 		}
+
+		//do hash again
+		ohash.Reset()
+		if _, err := ohash.Write(buf); err != nil {
+			t.Fatal(err)
+		}
+		ohash.Sum(got[:0])
+
+		if got != exp {
+			t.Fatalf("exp:%x got:%x", exp, got)
+		}
 	}
 }
 
