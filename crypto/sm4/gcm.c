@@ -40,7 +40,6 @@ int sm4_gcm_encrypt(unsigned char *plaintext, int plaintext_len,
 		return -1;
 
     EVP_CIPHER_CTX_free(ctx);
-
     return ciphertext_len;
 }
 
